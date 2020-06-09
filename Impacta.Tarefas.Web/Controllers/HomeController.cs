@@ -31,5 +31,10 @@ namespace Impacta.Tarefas.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult NovasTarefas()
+        {
+            return View();
+        }
     }
 }
