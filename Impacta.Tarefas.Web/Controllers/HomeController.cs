@@ -36,5 +36,11 @@ namespace Impacta.Tarefas.Web.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult NovasTarefas(TarefasMOD tarefasMOD)
+        {
+            return View();
+        }
     }
 }

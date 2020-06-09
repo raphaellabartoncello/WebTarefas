@@ -9,7 +9,7 @@ namespace Impacta.Tarefas.Web
     public class TarefasMOD
     {
         public int Id { get; set; }
-        [Required] //Atributo que indica que o campo é obrigatório
+        [Required(ErrorMessage ="A descrição da tarefa é requerida")] //Atributo que indica que o campo é obrigatório
         [Display(Name ="Nome da Tarefa")]
         [MaxLength(100, ErrorMessage ="Tamanho máximo de 100 caracteres")]
         public string Nome { get; set; }
