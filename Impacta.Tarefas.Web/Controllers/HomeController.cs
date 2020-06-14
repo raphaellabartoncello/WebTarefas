@@ -37,11 +37,6 @@ namespace Impacta.Tarefas.Web.Controllers
             return View();
         }
 
-        public ActionResult NovasTarefas()
-        {
-            return View();
-        }
-
         public ActionResult NovasTarefas(TarefasMOD tarefasMOD)
         {
             Repository repo = new Repository();

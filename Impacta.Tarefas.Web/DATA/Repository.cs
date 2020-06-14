@@ -6,7 +6,9 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Web.Configuration;
 using System.Data;
-
+using Antlr.Runtime.Misc;
+using System.Runtime.Remoting.Messaging;
+using System.Web.UI.WebControls;
 
 namespace Impacta.Tarefas.Web
 {
@@ -86,7 +88,48 @@ namespace Impacta.Tarefas.Web
         }
         public List<TarefasMOD> ReadAll()
         {
-            throw new NotImplementedException();
+            List<TarefasMOD> lista = new List<TarefasMOD>();
+            try
+            {
+                //O using é uma boa prática para instanciar a SqlConnection - Automaticamente após a execução do bloco using a conexão com o banco de dados é encerrada.
+                using (var conexao = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexaoPessoalDB"].ConnectionString))
+                {
+                    //Configuração do SqlCommand para execução do select
+                    comando.Connection = conexao;
+
+                    //Definir o tipo de comando a ser executado
+                    comando.CommandType = CommandType.Text;
+
+                    comando.CommandText = "SELECT * FROM TAREFAS ORDER BY PRIORIDADE";
+
+                    //Abrir conexão com o banco de dados
+                    conexao.Open();
+
+                    using (var dr = comando.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var tarefa = new TarefasMOD();
+                            tarefa.Id = Convert.ToInt32(dr["Id"]);
+                            tarefa.Nome = Convert.ToString(dr["Nome"].ToString());
+                            tarefa.Prioridade = Convert.ToInt32(dr["Prioridade"]);
+                            tarefa.Concluida = Convert.ToBoolean(dr["Concluida"]);
+                            tarefa.Observacoes = Convert.ToString(dr["Observacoes"]);
+
+
+                            lista.Add(tarefa);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return lista;
+
         }
     }
 }
