@@ -69,7 +69,27 @@ namespace Impacta.Tarefas.Web.Controllers
         [HttpPost]
         public ActionResult ListarTodasTarefas()
         {
-            return View();
+            List<TarefasMOD> listaTarefas = null;
+
+            //Criar o objeto repository
+            Repository repo = new Repository();
+
+            try
+            {
+                //Preencher com a lista de rarefas vinda do select
+                listaTarefas = repo.ReadAll();
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Falha = "O cadastro da tarefa não foi realizado.";
+
+                //etorna e mantém os dados nos campos - Não recarrega a página
+                return RedirectToAction("Index");
+            }
+
+            //Retorna a lista de tarefas já preenchidas para a VIEW tipada que já espera um objeto IEnumerable<T> que é do tipo TarefaMOD
+            return View(listaTarefas);
         }
 
         public ActionResult Detalhes(int? id)
