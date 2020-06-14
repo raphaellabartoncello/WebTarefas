@@ -1,40 +1,51 @@
-﻿@model IEnumerable<Impacta.Tarefas.Web.Models.TarefasMOD>
+﻿@model IEnumerable<Impacta.Tarefas.Web.TarefasMOD>
 
 @{
     ViewBag.Title = "Listar todas as tarefas";
 }
 
-<h2> Listar todas as tarefas</h2>
+<h2>Lista de tarefas</h2>
 
 <p>
-    @Html.ActionLink("Cadastrar Nova Tarefa", "NovaTarefa", "Home", new { @class = "btn btn-primary" })
+    @Html.ActionLink("Cadastrar nova tarefa", "NovasTarefas", "Home")
 </p>
-
-
-@foreach (var item in collection)
-{
+<table class="table">
     <tr>
-
         <th>
-            @Html.DisplayFor(modelItem => item.Nome)
+            @Html.DisplayNameFor(model => model.Nome)
         </th>
         <th>
-            @Html.DisplayFor(modelItem => item.Prioridade)
+            @Html.DisplayNameFor(model => model.Prioridade)
         </th>
         <th>
-            @Html.DisplayFor(modelItem => item.Concluida)
+            @Html.DisplayNameFor(model => model.Concluida)
         </th>
         <th>
-            @Html.DisplayFor(modelItem => item.Observaçoes)
+            @Html.DisplayNameFor(model => model.Observacoes)
         </th>
-
+        <th></th>
     </tr>
 
-    <td>
-        @Html.ActionLink("Editar", "Editar", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" }) |
-        @Html.ActionLink("Detalhes", "Detalhes", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" }) |
-        @Html.ActionLink("Excluir", "Excluir", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
-
-
-    </td>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Prioridade)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Concluida)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observacoes)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Read", new { id=item.Id }) |
+            @Html.ActionLink("Detalhes", "Detalhes", new { id=item.Id }) |
+            @Html.ActionLink("Excluir", "Excluir", new { id=item.Id })
+        </td>
+    </tr>
 }
+
+</table>
