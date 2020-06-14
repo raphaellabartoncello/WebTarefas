@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Impacta.Tarefas.Web.Models.TarefasMOD>
+
+@{
+    ViewBag.Title = "Listar todas as tarefas";
+}
+
+<h2> Listar todas as tarefas</h2>
+
+<p>
+    @Html.ActionLink("Cadastrar Nova Tarefa", "NovaTarefa", "Home", new { @class = "btn btn-primary" })
+</p>
+
+
+@foreach (var item in collection)
+{
+    <tr>
+
+        <th>
+            @Html.DisplayFor(modelItem => item.Nome)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.Prioridade)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.Concluida)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.Observaçoes)
+        </th>
+
+    </tr>
+
+    <td>
+        @Html.ActionLink("Editar", "Editar", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" }) |
+        @Html.ActionLink("Detalhes", "Detalhes", new { id = item.Id }, new { @class = "btn btn-primary btn-sm" }) |
+        @Html.ActionLink("Excluir", "Excluir", new { id = item.Id }, new { @class = "btn btn-danger btn-sm" })
+
+
+    </td>
+}

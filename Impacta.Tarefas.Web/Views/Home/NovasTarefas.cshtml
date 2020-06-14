@@ -1,19 +1,28 @@
 ﻿@model Impacta.Tarefas.Web.TarefasMOD
 
 @{
-    ViewBag.Title = "NovasTarefas";
+    ViewBag.Title = "Nova Tarefa";
 }
 
-<h2>NovasTarefas</h2>
+<h2>Nova Tarefa</h2>
 
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>TarefasMOD</h4>
+        <h4>Cadastro</h4>
         <hr />
+        @if (TempData["Sucesso"] != null)
+        {
+    <div class="alert alert-success" role="alert">@TempData["Sucesso"]</div>
+        }
+        else if (ViewBag.Falha !=null)
+        {
+            <div class="alert alert-danger" role="alert">@ViewBag.Falha</div>
+        }
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })

@@ -124,8 +124,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TarefasMOD.cs" />
+    <Compile Include="DATA\Repository.cs" />
+    <Compile Include="Models\TarefasMOD.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -166,10 +168,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Tarefas.cshtml" />
     <Content Include="Views\Home\NovasTarefas.cshtml" />
+    <Content Include="Views\Home\ListarTodasTarefas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

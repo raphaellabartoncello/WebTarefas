@@ -8,12 +8,14 @@
             <h1>Tarefas</h1>
         </div>
         <div id="conteudo">
-            @Html.ActionLink("Nova Tarefa", "NovasTarefas", "Home")
+            @Html.ActionLink("Nova Tarefa", "NovasTarefas", "Home", new { @class = "btn btn-primary btn-lg" })
+            @Html.ActionLink("Lista de tarefas", "Listar todas as tarefas", "Home", new { @class = "btn btn-primary btn-lg" })
+
         </div>
 
         <div id="rodape">
             <p>
-                Desenvolvido para estudar ASP.NET (c)2014 - Me
+                Repositório
             </p>
         </div>
     </div>
