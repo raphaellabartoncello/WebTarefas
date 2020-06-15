@@ -11,14 +11,14 @@ namespace Impacta.Tarefas.Web
         public int Id { get; set; }
         [Required(ErrorMessage ="A descrição da tarefa é requerida")] //Atributo que indica que o campo é obrigatório
         [Display(Name ="Nome da Tarefa")]
-        [MaxLength(100, ErrorMessage ="Tamanho máximo de 100 caracteres")]
+        [MaxLength(50, ErrorMessage ="Tamanho máximo de 50 caracteres")]
         public string Nome { get; set; }
         [Required]
         public int Prioridade { get; set; }
         [Display(Name = "Status Atual")]
         public bool Concluida { get; set; }
         [Display(Name = "Anotações")]
-        [MaxLength(200)]
+        [MaxLength(100)]
         public string Observacoes { get; set; }
 
     }

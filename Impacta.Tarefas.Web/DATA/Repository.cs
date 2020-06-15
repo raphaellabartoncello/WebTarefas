@@ -48,7 +48,8 @@ namespace Impacta.Tarefas.Web
 
                 comando.CommandText = "INSERT INTO TAREFAS(NOME, PRIORIDADE, CONCLUIDA, OBSERVACOES) VALUES(@Nome, @Prioridade, @Concluida, @Observacoes)";
 
-                comando.Parameters.AddWithValue("@Nome", tarefasMOD.Nome.Trim().ToUpper());
+                //comando.Parameters.AddWithValue("@Nome", tarefasMOD.Nome.Trim().ToUpper());
+                comando.Parameters.AddWithValue("@Nome", tarefasMOD.Nome);
                 comando.Parameters.AddWithValue("@Prioridade", tarefasMOD.Prioridade);
                 comando.Parameters.AddWithValue("@Concluida", tarefasMOD.Concluida);
                 comando.Parameters.AddWithValue("@Observacoes", tarefasMOD.Observacoes);
@@ -74,17 +75,43 @@ namespace Impacta.Tarefas.Web
             }
             return result;
         }
-        public TarefasMOD Read(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //public TarefasMOD Read(int id)
+        //{
+        //    TarefasMOD tarefa = null;
+
+        //    try
+        //    {
+
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+
+        //    return 
+        //}
         public bool Update(TarefasMOD tarefasMOD)
         {
             throw new NotImplementedException();
         }
-        public bool Delete(int id)
+        public int Delete(int id)
         {
-            throw new NotImplementedException();
+            string sql = @"DELETE TAREFAS WHERE Id=@Id";
+
+            int total = 0;
+
+            using (var cn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexaoPessoalDB"].ConnectionString))
+            {
+                using (var cmd = new SqlCommand(sql, cn))
+                {
+                    //cmd.Parameters.AddWithValue("@Id, id");
+                    cn.Open();
+                    total = Convert.ToInt32(cmd.ExecuteNonQuery());
+                }
+            }
+
+            return total;
         }
         public List<TarefasMOD> ReadAll()
         {
@@ -130,6 +157,56 @@ namespace Impacta.Tarefas.Web
 
             return lista;
 
+        }
+
+        bool IRepository.Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TarefasMOD Read(int id)
+        {
+            TarefasMOD tarefas = null;
+
+            try
+            {
+                using (var conexao = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexaoPessoalDB"].ConnectionString))
+                {
+                    comando.Connection = conexao;
+
+                    //Define o tipo de comando a ser executado
+                    comando.CommandType = CommandType.Text;
+
+                    //Definição da query
+                    comando.CommandText = @"SELECT Id, Nome, Prioridade, Concluida, Observacoes FROM TAREFAS WHERE ID=@ID";
+
+                    comando.Parameters.AddWithValue("@ID", id);
+
+                    conexao.Open();
+
+                    using (var dr = comando.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            tarefas = new TarefasMOD()
+                            {
+                                Id = Convert.ToInt32(dr["Id"]),
+                                Nome = Convert.ToString(dr["Nome"]),
+                                Concluida = Convert.ToBoolean(dr["Concluida"]),
+                                Prioridade = Convert.ToInt32(dr["Prioridade"]),
+                                Observacoes = Convert.ToString(dr["Observacoes"])
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return tarefas;
         }
     }
 }

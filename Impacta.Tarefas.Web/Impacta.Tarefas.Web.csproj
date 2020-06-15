@@ -169,6 +169,7 @@
     <Content Include="Views\Home\Tarefas.cshtml" />
     <Content Include="Views\Home\NovasTarefas.cshtml" />
     <Content Include="Views\Home\ListarTodasTarefas.cshtml" />
+    <Content Include="Views\Home\Detalhes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

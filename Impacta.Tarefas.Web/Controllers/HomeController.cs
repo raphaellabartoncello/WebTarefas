@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Impacta.Tarefas.Web.Controllers
 {
     public class HomeController : Controller
     {
-
+        //Adicionado objeto a ser instanciado
         Repository repoTarefasTB = null;
 
         public ActionResult Index()
@@ -87,6 +85,7 @@ namespace Impacta.Tarefas.Web.Controllers
             return View(listaTarefas);
         }
 
+        //O parametro int com a interrogação significa que o id pode ser nulo
         public ActionResult Detalhes(int? id)
         {
             TarefasMOD tarefa = null;
@@ -111,10 +110,45 @@ namespace Impacta.Tarefas.Web.Controllers
             {
 
                 ViewBag.Falha = "O cadastro da tarefa não foi realizado: " + ex.Message;
-            }
 
-            return RedirectToAction("NovaTarefa");
+                //Retorna e mantém os dados nos campos - Não recarrega a página
+                return View();
+            }
+            //View tipada - estou passando o objeto
+            return View(tarefa);
         }
 
+        public ActionResult Editar(int id = 0)
+        {
+            TarefasMOD tarefa = null;
+
+            try
+            {
+                if (id <= 0)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                //se não for nulo então faz a busca
+                repoTarefasTB = new Repository();
+
+                tarefa = repoTarefasTB.Read(id);
+
+                if (tarefa == null)
+                {
+                    return HttpNotFound();
+                }
+                    
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Falha = "O cadastro da tarefa não foi realizado: " + ex.Message;
+
+                //Retorna e mantém os dados nos campos - Não recarrega a página
+                return View();
+            }
+            return View(tarefa);
+        }
     }
 }

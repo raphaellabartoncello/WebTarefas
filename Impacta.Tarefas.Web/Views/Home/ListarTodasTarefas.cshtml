@@ -7,7 +7,7 @@
 <h2>Lista de tarefas</h2>
 
 <p>
-    @Html.ActionLink("ListarTodasTarefas", "NovasTarefas", "Home")
+    @Html.ActionLink("Cadastrar nova tarefa", "NovasTarefas", "Home", new { @class = "btn btn-primary" })
 </p>
 <table class="table">
     <tr>
@@ -23,7 +23,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Observacoes)
         </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
@@ -41,9 +40,9 @@
             @Html.DisplayFor(modelItem => item.Observacoes)
         </td>
         <td>
-            @Html.ActionLink("Editar", "Read", new { id=item.Id }) |
-            @Html.ActionLink("Detalhes", "Detalhes", new { id=item.Id }) |
-            @Html.ActionLink("Excluir", "Excluir", new { id=item.Id })
+            @Html.ActionLink("Editar", "Editar", new { id=item.Id }, new { @class = "btn btn-primary btn-sm" }) |
+            @Html.ActionLink("Detalhes", "Detalhes", new { id=item.Id }, new { @class = "btn btn-primary btn-sm" }) |
+            @Html.ActionLink("Excluir", "Excluir", new { id=item.Id }, new { @class = "btn btn-danger btn-sm" })
         </td>
     </tr>
 }
