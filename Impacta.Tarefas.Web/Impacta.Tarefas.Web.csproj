@@ -171,7 +171,7 @@
     <Content Include="Views\Home\ListarTodasTarefas.cshtml" />
     <Content Include="Views\Home\Detalhes.cshtml" />
     <Content Include="Views\Home\Editar.cshtml" />
-    <Content Include="Views\Home\Delete.cshtml" />
+    <Content Include="Views\Home\Excluir.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

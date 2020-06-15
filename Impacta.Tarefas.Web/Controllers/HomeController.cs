@@ -177,7 +177,7 @@ namespace Impacta.Tarefas.Web.Controllers
             return View(tarefas);
         }
 
-        public ActionResult Delete(int id = 0)
+        public ActionResult Excluir(int id = 0)
         {
             TarefasMOD tarefas = null;
 
@@ -207,6 +207,14 @@ namespace Impacta.Tarefas.Web.Controllers
                 return View();
             }
             return View(tarefas);
+        }
+
+        //POST: /Home/Delete/5
+        [HttpPost, ActionName("Excluir")]
+        [ValidateAntiForgeryToken]
+        public ActionResult ConfirmarExclusao(int id)
+        {
+
         }
     }
 }
