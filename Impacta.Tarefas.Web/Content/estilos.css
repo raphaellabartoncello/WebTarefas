@@ -5,7 +5,7 @@
 body {
     padding: 0px;
     margin: 0px;
-    background-color: #2e5069;
+    background-color: #fff;
     font-family: 'Century Gothic', Tahoma, Arial;
 }
 
@@ -179,4 +179,8 @@ fieldset {
     font-weight: bold;
     display: block;
     Color: #dde6f3;
+}
+
+footer{
+    text-align:center;
 }
