@@ -212,9 +212,35 @@ namespace Impacta.Tarefas.Web.Controllers
         //POST: /Home/Delete/5
         [HttpPost, ActionName("Excluir")]
         [ValidateAntiForgeryToken]
-        public ActionResult ConfirmarExclusao(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
+            TarefasMOD tarefas = null;
 
+            try
+            {
+                if (id <=0)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                repoTarefasTB = new Repository();
+
+                //Vamos acessar a base novamente para verificar se o arquivo permanece lá - pode ter sido excluído por outra pessoa
+                tarefas = repoTarefasTB.Read(Convert.ToInt32(id));
+
+                if (tarefas == null)
+                {
+                    return HttpNotFound();
+                }
+                repoTarefasTB.Delete(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return View("ListarTodasTarefas");
         }
     }
 }

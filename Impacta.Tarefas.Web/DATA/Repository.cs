@@ -75,22 +75,97 @@ namespace Impacta.Tarefas.Web
             }
             return result;
         }
-        //public TarefasMOD Read(int id)
-        //{
-        //    TarefasMOD tarefa = null;
 
-        //    try
-        //    {
+        public TarefasMOD Read(int id)
+        {
+            TarefasMOD tarefas = null;
 
-        //    }
-        //    catch (Exception)
-        //    {
+            try
+            {
+                using (var conexao = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexaoPessoalDB"].ConnectionString))
+                {
+                    comando.Connection = conexao;
 
-        //        throw;
-        //    }
+                    //Define o tipo de comando a ser executado
+                    comando.CommandType = CommandType.Text;
 
-        //    return 
-        //}
+                    //Definição da query
+                    comando.CommandText = @"SELECT Id, Nome, Prioridade, Concluida, Observacoes FROM TAREFAS WHERE ID=@ID";
+
+                    comando.Parameters.AddWithValue("@ID", id);
+
+                    conexao.Open();
+
+                    using (var dr = comando.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            tarefas = new TarefasMOD()
+                            {
+                                Id = Convert.ToInt32(dr["Id"]),
+                                Nome = Convert.ToString(dr["Nome"]),
+                                Concluida = Convert.ToBoolean(dr["Concluida"]),
+                                Prioridade = Convert.ToInt32(dr["Prioridade"]),
+                                Observacoes = Convert.ToString(dr["Observacoes"])
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return tarefas;
+        }
+        public List<TarefasMOD> ReadAll()
+        {
+            List<TarefasMOD> lista = new List<TarefasMOD>();
+            try
+            {
+                //O using é uma boa prática para instanciar a SqlConnection - Automaticamente após a execução do bloco using a conexão com o banco de dados é encerrada.
+                using (var conexao = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexaoPessoalDB"].ConnectionString))
+                {
+                    //Configuração do SqlCommand para execução do select
+                    comando.Connection = conexao;
+
+                    //Definir o tipo de comando a ser executado
+                    comando.CommandType = CommandType.Text;
+
+                    comando.CommandText = "SELECT * FROM TAREFAS ORDER BY PRIORIDADE";
+
+                    //Abrir conexão com o banco de dados
+                    conexao.Open();
+
+                    using (var dr = comando.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            var tarefa = new TarefasMOD();
+                            tarefa.Id = Convert.ToInt32(dr["Id"]);
+                            tarefa.Nome = Convert.ToString(dr["Nome"].ToString());
+                            tarefa.Prioridade = Convert.ToInt32(dr["Prioridade"]);
+                            tarefa.Concluida = Convert.ToBoolean(dr["Concluida"]);
+                            tarefa.Observacoes = Convert.ToString(dr["Observacoes"]);
+
+
+                            lista.Add(tarefa);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return lista;
+
+        }
+
         public bool Update(TarefasMOD tarefas)
         {
             int total = 0;
@@ -145,100 +220,10 @@ namespace Impacta.Tarefas.Web
 
             return total;
         }
-        public List<TarefasMOD> ReadAll()
-        {
-            List<TarefasMOD> lista = new List<TarefasMOD>();
-            try
-            {
-                //O using é uma boa prática para instanciar a SqlConnection - Automaticamente após a execução do bloco using a conexão com o banco de dados é encerrada.
-                using (var conexao = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexaoPessoalDB"].ConnectionString))
-                {
-                    //Configuração do SqlCommand para execução do select
-                    comando.Connection = conexao;
-
-                    //Definir o tipo de comando a ser executado
-                    comando.CommandType = CommandType.Text;
-
-                    comando.CommandText = "SELECT * FROM TAREFAS ORDER BY PRIORIDADE";
-
-                    //Abrir conexão com o banco de dados
-                    conexao.Open();
-
-                    using (var dr = comando.ExecuteReader())
-                    {
-                        while (dr.Read())
-                        {
-                            var tarefa = new TarefasMOD();
-                            tarefa.Id = Convert.ToInt32(dr["Id"]);
-                            tarefa.Nome = Convert.ToString(dr["Nome"].ToString());
-                            tarefa.Prioridade = Convert.ToInt32(dr["Prioridade"]);
-                            tarefa.Concluida = Convert.ToBoolean(dr["Concluida"]);
-                            tarefa.Observacoes = Convert.ToString(dr["Observacoes"]);
-
-
-                            lista.Add(tarefa);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
-            return lista;
-
-        }
 
         bool IRepository.Delete(int id)
         {
             throw new NotImplementedException();
-        }
-
-        public TarefasMOD Read(int id)
-        {
-            TarefasMOD tarefas = null;
-
-            try
-            {
-                using (var conexao = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexaoPessoalDB"].ConnectionString))
-                {
-                    comando.Connection = conexao;
-
-                    //Define o tipo de comando a ser executado
-                    comando.CommandType = CommandType.Text;
-
-                    //Definição da query
-                    comando.CommandText = @"SELECT Id, Nome, Prioridade, Concluida, Observacoes FROM TAREFAS WHERE ID=@ID";
-
-                    comando.Parameters.AddWithValue("@ID", id);
-
-                    conexao.Open();
-
-                    using (var dr = comando.ExecuteReader())
-                    {
-                        if (dr.Read())
-                        {
-                            tarefas = new TarefasMOD()
-                            {
-                                Id = Convert.ToInt32(dr["Id"]),
-                                Nome = Convert.ToString(dr["Nome"]),
-                                Concluida = Convert.ToBoolean(dr["Concluida"]),
-                                Prioridade = Convert.ToInt32(dr["Prioridade"]),
-                                Observacoes = Convert.ToString(dr["Observacoes"])
-                            };
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
-            return tarefas;
         }
     }
 }
