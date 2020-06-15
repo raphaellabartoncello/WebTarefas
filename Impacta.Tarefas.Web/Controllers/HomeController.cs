@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 
 namespace Impacta.Tarefas.Web.Controllers
 {
+
     public class HomeController : Controller
     {
         //Adicionado objeto a ser instanciado
@@ -21,6 +23,25 @@ namespace Impacta.Tarefas.Web.Controllers
             return View();
         }
 
+        public ActionResult NovasTarefas()
+        {
+
+            //Criamos uma variável Lista do tipo TarefasMOD, para devolver para a view um objeto do tipo select list que contenha o codigo de status e seus respectivos nomes para que seja listado no DropDownList
+
+            var result = new List<TarefasMOD>()
+            {
+                new TarefasMOD{ Id=1, Nome = "Sim"},
+                new TarefasMOD{ Id=0, Nome = "Não"}
+
+            };
+
+            ViewBag.Status = new SelectList(result,"Id","Nome");
+
+            //Devolve um html para o browser
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult NovasTarefas(TarefasMOD tarefasMOD)
         {
             Repository repo = new Repository();
@@ -45,7 +66,6 @@ namespace Impacta.Tarefas.Web.Controllers
         }
         //Método devolve a lista de tarefas para o Browser
 
-        [HttpPost]
         public ActionResult ListarTodasTarefas()
         {
             List<TarefasMOD> listaTarefas = null;
@@ -204,7 +224,7 @@ namespace Impacta.Tarefas.Web.Controllers
 
             try
             {
-                if (id <=0)
+                if (id <= 0)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
