@@ -91,9 +91,41 @@ namespace Impacta.Tarefas.Web
 
         //    return 
         //}
-        public bool Update(TarefasMOD tarefasMOD)
+        public bool Update(TarefasMOD tarefas)
         {
-            throw new NotImplementedException();
+            int total = 0;
+
+            try
+            {
+                string sql = @"UPDATE TAREFAS SET Nome=@Nome, Prioridade=@Prioridade, Concluida=@Concluida, Observacoes=@Observacoes WHERE Id=@Id";
+
+                using (var conexao = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexaoPessoalDB"].ConnectionString))
+                {
+                    comando.CommandText = sql;
+                    comando.CommandType = CommandType.Text;
+
+                    //SqlConnection
+                    comando.Connection = conexao;
+
+                    //parametros a serem trocados
+                    comando.Parameters.AddWithValue("@Nome", tarefas.Nome);
+                    comando.Parameters.AddWithValue("@Prioridade", tarefas.Prioridade);
+                    comando.Parameters.AddWithValue("@Concluida", tarefas.Concluida);
+                    comando.Parameters.AddWithValue("@Observacoes", tarefas.Observacoes);
+                    comando.Parameters.AddWithValue("@Id", tarefas.Id);
+
+                    conexao.Open();
+
+                    //ID do registro afetado com a alteração
+                    total = Convert.ToInt32(comando.ExecuteScalar());
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return true;
         }
         public int Delete(int id)
         {

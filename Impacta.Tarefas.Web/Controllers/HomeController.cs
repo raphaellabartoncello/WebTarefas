@@ -138,7 +138,7 @@ namespace Impacta.Tarefas.Web.Controllers
                 {
                     return HttpNotFound();
                 }
-                    
+
             }
             catch (Exception ex)
             {
@@ -149,6 +149,64 @@ namespace Impacta.Tarefas.Web.Controllers
                 return View();
             }
             return View(tarefa);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Editar(TarefasMOD tarefas)
+        {
+            try
+            {
+                //Verificar se os dados informados são válidos
+                if (ModelState.IsValid)
+                {
+                    repoTarefasTB = new Repository();
+
+                    repoTarefasTB.Update(tarefas);
+
+                    return RedirectToAction("ListarTodasTarefas");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            //Caso não consiga alterar vai retornar a chamada da mesma View
+            return View(tarefas);
+        }
+
+        public ActionResult Delete(int id = 0)
+        {
+            TarefasMOD tarefas = null;
+
+            try
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                repoTarefasTB = new Repository();
+
+                tarefas = repoTarefasTB.Read(Convert.ToInt32(id));
+
+                if (tarefas == null)
+                {
+                    return HttpNotFound();
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Falha = "O cadastro da tarefa não foi realizado: " + ex.Message;
+
+                //Retorna e mantém os dados nos campos - Não recarrega a página
+                return View();
+            }
+            return View(tarefas);
         }
     }
 }
