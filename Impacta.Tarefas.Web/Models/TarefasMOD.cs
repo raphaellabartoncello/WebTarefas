@@ -15,7 +15,7 @@ namespace Impacta.Tarefas.Web
         public string Nome { get; set; }
         [Required]
         public int Prioridade { get; set; }
-        [Display(Name = "Status Atual")]
+        [Display(Name = "Finalizada?")]
         public bool Concluida { get; set; }
         [Display(Name = "Anotações")]
         [MaxLength(100)]
